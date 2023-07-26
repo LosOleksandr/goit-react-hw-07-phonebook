@@ -13,6 +13,7 @@ export default defineConfig({
       "@components": "/src/components",
       "@app": "/src/app",
       "@interface": "/src/interface",
+      "@pages": "/src/pages",
     },
   },
   build: {

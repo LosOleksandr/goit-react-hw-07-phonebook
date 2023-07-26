@@ -1,6 +1,6 @@
 // import { persistor } from "@app/"
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
-import { persistedContactsReducer } from "./ContactsSlice"
+import { contactsApi } from "./ContactsSlice"
 import { filterReducer } from "./FilterSlice"
 import {
   persistStore,
@@ -15,7 +15,7 @@ import { persistedThemeReducer } from "./ThemeSlice"
 
 export const store = configureStore({
   reducer: {
-    contacts: persistedContactsReducer,
+    [contactsApi.reducerPath]: contactsApi.reducer,
     filter: filterReducer,
     theme: persistedThemeReducer,
   },
@@ -24,7 +24,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(contactsApi.middleware),
 })
 
 export const persistor = persistStore(store)

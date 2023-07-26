@@ -15,7 +15,7 @@ const ThemeToggler = () => {
 
   return (
     <button
-      className="absolute top-4 left-4 border-2  dark:bg-orange-400 dark:hover:bg-orange-700 dark:hover:text-orange-200 bg-orange-500 text-orange-200 dark:text-orange-900 transition-colors hover:text-orange-700 hover:bg-orange-500/40 border-orange-700/50  p-2 rounded-full "
+      className="absolute top-4 right-4 border-2 bg-yellow-700 border-yellow-800 text-yellow-100 p-2 rounded-full "
       onClick={toggleTheme}
       type="button"
     >

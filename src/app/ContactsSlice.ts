@@ -1,47 +1,37 @@
 import { Contact } from "@interface/contacts"
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { nanoid } from "@reduxjs/toolkit"
-import storage from "redux-persist/lib/storage"
-import { persistReducer } from "redux-persist"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
-const contactsInitialState: Contact[] = []
-
-export const contactsSlice = createSlice({
-  name: "contacts",
-  initialState: { list: contactsInitialState },
-  reducers: {
-    addContact: {
-      reducer(state, action: PayloadAction<Contact>) {
-        state.list.push(action.payload)
-      },
-      prepare(contact: { name: string; number: string }) {
-        return {
-          payload: {
-            id: nanoid(),
-            ...contact,
-          },
-        }
-      },
-    },
-    deleteContact(state, action) {
-      const index = state.list.findIndex(
-        (contact) => contact.id === action.payload,
-      )
-      state.list.splice(index, 1)
-    },
-  },
+export const contactsApi = createApi({
+  reducerPath: "contactsApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://64bc0c897b33a35a4446f943.mockapi.io/phonebook/v1/",
+  }),
+  tagTypes: ["Contacts"],
+  endpoints: (builder) => ({
+    getContacts: builder.query<Contact[], void>({
+      query: () => `contacts`,
+      providesTags: ["Contacts"],
+    }),
+    addContact: builder.mutation<Contact, Partial<Contact>>({
+      query: (contact) => ({
+        url: `contacts`,
+        method: "POST",
+        body: contact,
+      }),
+      invalidatesTags: ["Contacts"],
+    }),
+    deleteContact: builder.mutation<Contact, string>({
+      query: (id) => ({
+        url: `contacts/${id}`,
+        method: "Delete",
+      }),
+      invalidatesTags: ["Contacts"],
+    }),
+  }),
 })
 
-export const { addContact, deleteContact } = contactsSlice.actions
-export const contactsReducer = contactsSlice.reducer
-
-const persistConfig = {
-  key: "contacts",
-  version: 1,
-  storage,
-}
-
-export const persistedContactsReducer = persistReducer(
-  persistConfig,
-  contactsReducer,
-)
+export const {
+  useGetContactsQuery,
+  useAddContactMutation,
+  useDeleteContactMutation,
+} = contactsApi

@@ -2,11 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply w-full h-full text-orange-900 dark:text-orange-200 bg-no-repeat bg-fixed bg-gradient-to-b from-orange-50 to-orange-200 dark:from-gray-700 dark:to-gray-900;
-}
+@layer base {
+  body {
+    @apply w-full h-screen dark:text-orange-900 text-yellow-100  bg-no-repeat bg-fixed bg-gradient-to-b from-orange-50 to-orange-200 dark:from-gray-700 dark:to-gray-900;
+  }
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+  #root {
+    @apply w-full h-screen;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: rgb(254 249 195 / var(--tw-text-opacity));
+      border-radius: 5px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(113 63 18 / var(--tw-text-opacity));
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+
 }

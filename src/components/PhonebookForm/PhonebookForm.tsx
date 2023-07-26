@@ -2,9 +2,7 @@ import { ErrorMessage } from "@hookform/error-message"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import validationSchema from "./validationSchema"
-import { useAppDispatch } from "@app/hooks"
-import { addContact } from "@app/ContactsSlice"
-import { useRef } from "react"
+import { useAddContactMutation } from "@app/ContactsSlice"
 
 type PhonebookFormFields = {
   name: string
@@ -12,8 +10,7 @@ type PhonebookFormFields = {
 }
 
 const PhonebookForm = () => {
-  const dispatch = useAppDispatch()
-  const InputReF = useRef(null)
+  const [addContact] = useAddContactMutation()
 
   const {
     register,
@@ -23,62 +20,56 @@ const PhonebookForm = () => {
   } = useForm<PhonebookFormFields>({ resolver: yupResolver(validationSchema) })
 
   const onSubmit = (data: PhonebookFormFields) => {
-    dispatch(addContact(data))
+    addContact(data)
     reset()
   }
 
   return (
-    <div className="border-2 rounded-xl m-auto max-w-md   border-orange-700 dark:border-orange-400 px-4 py-8">
-      <h2 className="text-center mb-4 font-semibold text-xl ">
-        Add your contact!{" "}
-      </h2>
-      <form
-        className="flex flex-col gap-5 justify-center align-middle"
-        action=""
-        autoComplete="off"
-        onSubmit={handleSubmit(onSubmit)}
+    <form
+      className="flex flex-col gap-5 border-4 py-12 px-4 border-yellow-100 dark:border-yellow-900 rounded-2xl bg-yellow-900 dark:bg-yellow-100  justify-center align-middle"
+      action=""
+      autoComplete="off"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <label className="font-medium">
+        Name
+        <input
+          className="w-full  border-2 border-yellow-100 dark:border-yellow-900 placeholder-yellow-100/80 dark:placeholder-yellow-900/80 rounded-lg mt-1 px-2 py-2 outline-none bg-transparent focus:bg-yellow-200/40 dark:focus:bg-yellow-600/40 focus:border-yellow-700 dark:focus:border-yellow-600  transition-colors"
+          type="text"
+          {...register("name")}
+          placeholder="Type name here..."
+        />
+        <ErrorMessage
+          name="name"
+          errors={errors}
+          render={({ message }) => (
+            <small className="text-red-500">{message}</small>
+          )}
+        />
+      </label>
+      <label className="font-medium">
+        Phone
+        <input
+          {...register("number")}
+          className="w-full  border-2 border-yellow-100 dark:border-yellow-900 placeholder-yellow-100/80 dark:placeholder-yellow-900/80 rounded-lg mt-1 px-2 py-2 outline-none bg-transparent focus:bg-yellow-200/40 dark:focus:bg-yellow-600/40 focus:border-yellow-700 dark:focus:border-yellow-600  transition-colors"
+          type="tel"
+          placeholder="Type phone here..."
+        />
+        <ErrorMessage
+          name="number"
+          errors={errors}
+          render={({ message }) => (
+            <small className="text-red-500">{message}</small>
+          )}
+        />
+      </label>
+      <button
+        className="border-2 group mx-auto mt-4 text-yellow-100 bg-yellow-600 dark:border-yellow-600 dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:text-orange-900  hover:bg-yellow-700 border-yellow-700  flex justify-center items-center py-3 px-5 rounded-2xl font-semibold  hover:text-yellow-300 transition-colors duration-300"
+        type="submit"
       >
-        <label className="font-medium">
-          Name
-          <input
-            className="border-2 border-orange-700/50 dark:border-orange-400 placeholder-orange-900/40 dark:placeholder-orange-300/60 rounded-lg mt-1 px-2 py-2 outline-none bg-transparent focus:bg-orange-200/40 dark:focus:bg-orange-400/40 focus:border-orange-700 dark:focus:border-orange-600 w-full transition-colors"
-            type="text"
-            {...register("name")}
-            placeholder="Type name here..."
-          />
-          <ErrorMessage
-            name="name"
-            errors={errors}
-            render={({ message }) => (
-              <small className="text-red-500">{message}</small>
-            )}
-          />
-        </label>
-        <label className="font-medium">
-          Phone
-          <input
-            {...register("number")}
-            className="border-2 border-orange-700/50 dark:border-orange-400 placeholder-orange-900/40 dark:placeholder-orange-300/60 rounded-lg mt-1 px-2 py-2 outline-none bg-transparent focus:bg-orange-200/40 dark:focus:bg-orange-400/40 focus:border-orange-700 dark:focus:border-orange-600 w-full
-          transition-colors"
-            type="tel"
-            placeholder="Type phone here..."
-          />
-          <ErrorMessage
-            name="number"
-            errors={errors}
-            render={({ message }) => (
-              <small className="text-red-500">{message}</small>
-            )}
-          />
-        </label>
-        <button
-          className="border-2 font-medium rounded-2xl py-1 mt-4 dark:bg-orange-400 dark:hover:bg-orange-700 dark:hover:text-orange-200 bg-orange-500 text-orange-200 dark:text-orange-900 transition-colors hover:text-orange-700 hover:bg-orange-500/40 border-orange-700/50 w-2/4 m-auto"
-          type="submit"
-        >
-          Add Contact
-        </button>
-      </form>
-    </div>
+        Add Contact
+      </button>
+    </form>
   )
 }
 
