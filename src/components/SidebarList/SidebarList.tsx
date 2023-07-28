@@ -30,7 +30,7 @@ const SidebarList = () => {
             Your contacts
           </h1>
           <Filter />
-          <ContactsList />
+          {!isHidden  && <ContactsList />}
         </div>
       </aside>
     </>

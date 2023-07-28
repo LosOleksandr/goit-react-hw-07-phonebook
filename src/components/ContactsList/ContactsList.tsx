@@ -7,6 +7,7 @@ import {
   useDeleteContactMutation,
   useGetContactsQuery,
 } from "@app/ContactsSlice"
+// import { ToastContainer, toast } from "react-toastify"
 
 const ContactsList = () => {
   const { data } = useGetContactsQuery()
@@ -24,6 +25,9 @@ const ContactsList = () => {
   return (
     <>
       <ul className="mt-4 flex flex-col gap-3 max-w-screen-md">
+        {visibleContacts.length === 0 && (
+          <p className="text-center font-medium text-xl">No Contacts!</p>
+        )}
         {visibleContacts.map(({ id, name, number }) => (
           <li
             key={id}

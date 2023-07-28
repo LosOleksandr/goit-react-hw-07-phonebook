@@ -1,8 +1,5 @@
-
 const Phonebook = () => {
-  return (
-    <div>Phonebook</div>
-  )
+  return <></>
 }
 
 export default Phonebook

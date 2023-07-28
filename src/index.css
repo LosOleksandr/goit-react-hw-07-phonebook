@@ -10,6 +10,9 @@
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   #root {
     @apply w-full h-screen;
   }
@@ -20,7 +23,7 @@
   /* Track */
   ::-webkit-scrollbar-track {
     background: rgb(254 249 195 / var(--tw-text-opacity));
-      border-radius: 5px;
+    border-radius: 5px;
   }
 
   /* Handle */
@@ -30,5 +33,4 @@
   }
 
   /* Handle on hover */
-
 }
